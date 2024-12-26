@@ -16,12 +16,31 @@ async function loadTeams() {
     }
 }
 
+// Função para mover equipe para a lista de eliminadas
+async function eliminateTeam(teamId) {
+    if (!confirm("Tem certeza que deseja eliminar esta equipe?")) return;
 
+    try {
+        const response = await fetch(`http://localhost:3000/teams/${teamId}/eliminate`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
+        if (!response.ok) throw new Error("Erro ao eliminar equipe");
 
-// Função para renderizar as equipes no DOM
+        alert("Equipe eliminada com sucesso!");
+        loadTeams();
+    } catch (error) {
+        console.error(error.message);
+        alert("Erro ao eliminar equipe.");
+    }
+}
+
+// Adicionar botão "Eliminar" no renderTeams
 function renderTeams(teamsData) {
-    teamsContainer.innerHTML = ""; // Limpa o contêiner antes de renderizar
+    teamsContainer.innerHTML = "";
 
     teamsData.forEach(team => {
         const teamCard = document.createElement("div");
@@ -32,22 +51,36 @@ function renderTeams(teamsData) {
             <p>Pontuação: ${team.points}</p>
             <button onclick="deleteTeam(${team.id})">Remover</button>
             <button onclick="openEditModal(${team.id}, '${team.name}', '${team.emblem}')">Editar</button>
+            <button onclick="eliminateTeam(${team.id})">Eliminar</button>
         `;
         teamsContainer.appendChild(teamCard);
     });
 }
 
+// Garante que o modal esteja oculto ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("edit-modal").style.display = "none";
+});
+
 // Função para abrir o modal de edição com dados da equipe
 function openEditModal(teamId, name, emblem) {
     currentTeamId = teamId; // Define o ID da equipe sendo editada
-    document.getElementById("edit-team-name").value = name;
-    document.getElementById("edit-team-emblem").value = emblem;
-    document.getElementById("edit-modal").style.display = "block";
+    document.getElementById("edit-team-name").value = name || "";
+    document.getElementById("edit-team-emblem").value = emblem || "";
+    document.getElementById("edit-modal").style.display = "flex"; // Exibe o modal
 }
 
 // Fecha o modal de edição
 document.querySelector(".modal .close").addEventListener("click", () => {
-    document.getElementById("edit-modal").style.display = "none";
+    document.getElementById("edit-modal").style.display = "none"; // Oculta o modal
+});
+
+// Fecha o modal ao clicar fora dele
+window.addEventListener("click", (event) => {
+    const modal = document.getElementById("edit-modal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
 });
 
 // Função para adicionar uma nova equipe
@@ -171,10 +204,23 @@ async function changePoints(teamId, delta) {
     }
 }
 
+// Função para exibir notificações
+function showNotification(type, message) {
+    const notification = document.createElement("div");
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <span class="notification-icon">${type === 'success' ? '✔️' : '❌'}</span>
+        <span>${message}</span>
+    `;
+    document.querySelector(".notifications").appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000); // A notificação desaparece após 3 segundos
+}
 
 // Carregar o placar ao iniciar
 document.addEventListener("DOMContentLoaded", loadLeaderboard);
-
 
 // Carrega equipes ao inicializar a página
 document.addEventListener("DOMContentLoaded", loadTeams);

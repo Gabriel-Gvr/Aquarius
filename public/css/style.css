@@ -160,13 +160,156 @@ button:focus {
     border-radius: 4px;
 }
 
+/* Modal de Edição de Tarefa */
+#edit-task-modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#edit-task-modal .modal-content {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Botão para fechar o modal */
+#edit-task-modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+
+/* Estilização básica para o modal */
+#edit-modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Estilo do conteúdo do modal */
+.modal-content {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animação para o modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Botão para fechar o modal */
+.modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Estilo dos campos de entrada */
+.modal-content input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Botão de salvar */
+.modal-content button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+#team-emblem {
+    width: 15%; /* Ocupa toda a largura do contêiner */
+    padding: 10px; /* Espaçamento interno para conforto visual */
+    margin: 10px 0; /* Espaçamento vertical entre os campos */
+    font-size: 16px; /* Tamanho da fonte */
+    border: 2px solid #ccc; /* Borda inicial */
+    border-radius: 5px; /* Borda arredondada */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transição para foco */
+}
+
+#team-emblem:focus {
+    border-color: #007BFF; /* Cor da borda ao focar */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra ao focar */
+    outline: none; /* Remove a borda padrão de foco */
+}
+
+#team-emblem::placeholder {
+    color: #aaa; /* Cor do texto do placeholder */
+    font-style: italic; /* Estilo itálico para placeholder */
+}
+
+
+
+
 /* Adicionando estilo aos campos */
 #team-name {
-    border: 1px solid #d1d3e2;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 15%; /* Ocupa toda a largura do contêiner */
+    padding: 10px; /* Espaçamento interno para conforto visual */
+    margin: 10px 0; /* Espaçamento vertical entre os campos */
+    font-size: 16px; /* Tamanho da fonte */
+    border: 2px solid #ccc; /* Borda inicial */
+    border-radius: 5px; /* Borda arredondada */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transição para foco */
 }
 
 #team-name:focus {
@@ -219,120 +362,11 @@ button:focus {
     transform: translateX(10px);
 }
 
-/* Painel administrativo */
-#admin-container {
-    padding: 1rem;
-    background-color: #e9ecef;
-    border: 1px solid #d1d3e2;
-    border-radius: 8px;
-}
-
-.task-item {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border: 1px solid #d1d3e2;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-/* Painel de medalhas */
-#medals-container {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.medal-card {
-    border: 1px solid #d1d3e2;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    background-color: #f9f9f9;
-}
-
-/* Painel de eliminados */
-#eliminated-container {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-
-
-.eliminated-card {
-    border: 2px solid red;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    background-color: #ffe6e6;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.eliminated-card span {
-    font-weight: bold;
-    color: red;
-}
-
-
-.highlight {
-    animation: highlight 1s ease;
-}
-
-@keyframes highlight {
-    from {
-        background-color: yellow;
-    }
-    to {
-        background-color: transparent;
-    }
-}
-
-/* Estilos para premiações */
-#prizes-container {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.prize-card {
-    border: 1px solid #d1d3e2;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    background-color: #f9f9f9;
-    width: 200px;
-}
-
-.prize-card img {
-    max-width: 100%;
-    border-radius: 8px;
-}
-
-/* Estilos para avatares */
-#avatars-container {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.avatar-card {
-    border: 1px solid #d1d3e2;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    background-color: #e0f7fa;
-    width: 200px;
-}
-
-.avatar-card img {
-    max-width: 100%;
-    border-radius: 50%;
-}
-
-.avatar-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 0;
+#eliminated-teams {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8d7da; /* Fundo leve vermelho */
+    border: 1px solid #f5c6cb;
 }
 
 /* Notificações */
@@ -385,17 +419,167 @@ button:focus {
     }
 }
 
-/* Histórico de Pontuações */
-#history-container {
+/* Estilo para a seção de tarefas */
+#tasks {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#tasks h2 {
+    margin-bottom: 1rem;
+    color: #0056b3; /* Cor do título em harmonia com a paleta de cores */
+}
+
+/* Estilo do formulário de adicionar tarefas */
+#add-task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+#add-task-form input,
+#add-task-form textarea,
+#add-task-form button {
+    font-size: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #d1d3e2;
+    border-radius: 8px;
+}
+
+#add-task-form input:focus,
+#add-task-form textarea:focus,
+#add-task-form button:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+#add-task-form button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#add-task-form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Estilo para o contêiner de tarefas */
+#tasks-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.history-card {
-    border: 1px solid #d1d3e2;
+.task-card {
     padding: 1rem;
+    background-color: #ffffff;
+    border: 1px solid #d1d3e2;
     border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
+
+.task-card:hover {
+    transform: scale(1.05);
+}
+
+.task-card h3 {
+    margin-bottom: 0.5rem;
+    color: #0056b3;
+}
+
+.task-card p {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.task-card label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.task-card input[type="checkbox"] {
+    transform: scale(1.2);
+}
+
+.task-card button {
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.task-card button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Modal de Edição de Tarefa */
+#edit-task-modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#edit-task-modal .modal-content {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Botão para fechar o modal */
+#edit-task-modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0.5rem;
+    }
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+}
+
+
