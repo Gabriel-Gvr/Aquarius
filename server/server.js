@@ -268,7 +268,6 @@ app.get("/eliminated-teams", (req, res) => {
 
 
 
-
 // Rotas para tarefas
 app.get("/tasks", (req, res) => {
     try {
@@ -366,7 +365,11 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: "Erro interno do servidor" });
 });
 
+app.get("/", (req, res) => res.send("Vercel"));
+
 // Inicia o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+
+module.exports = app;
