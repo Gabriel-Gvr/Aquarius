@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // Caminho para arquivos de dados
 const dataFolderPath = path.join(__dirname, "..", "data");
@@ -365,20 +365,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: "Erro interno do servidor" });
 });
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'));
-});
-
-app.get('/api/teams', (req, res) => {
-    const teams = loadTeams();
-    res.json(teams);
-});
-
-app.get('/api/tasks', (req, res) => { 
-    const tasks = loadTasks(); res.json(tasks); 
-});
-
-
+app.get("/", (req, res) => res.send("Vercel"));
 
 // Inicia o servidor
 app.listen(PORT, () => {
