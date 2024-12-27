@@ -1,42 +1,76 @@
-// medals.js - Painel de Medalhas
-const medalsContainer = document.getElementById("medals-container");
+const medalsList = document.getElementById("medals-list");
+const medalsEarnedList = document.getElementById("medals-earned-list");
+const medalsProgressList = document.getElementById("medals-progress-list");
 
-// Dados fictícios de medalhas
-const medalsData = [
-    { team: "Equipe Alpha", type: "Ouro", image: "medals/gold.png" },
-    { team: "Equipe Beta", type: "Prata", image: "medals/silver.png" },
-    { team: "Equipe Gamma", type: "Bronze", image: "medals/bronze.png" }
-];
+// Função para carregar medalhas do servidor
+async function loadMedals() {
+    try {
+        const response = await fetch("http://localhost:3000/medals");
+        if (!response.ok) throw new Error("Erro ao carregar medalhas");
 
-// Função para carregar medalhas
-function loadMedals() {
-    medalsContainer.innerHTML = "";
-    medalsData.forEach(medal => {
-        const medalCard = document.createElement("div");
-        medalCard.className = "medal-card";
-        medalCard.innerHTML = `
-            <img src="assets/images/${medal.image}" alt="Medalha ${medal.type}">
-            <p>${medal.team} - Medalha de ${medal.type}</p>
-        `;
-        medalsContainer.appendChild(medalCard);
-    });
-}
-
-// Carregar medalhas ao iniciar o script
-document.addEventListener("DOMContentLoaded", loadMedals);
-
-async function assignMedal(teamId, medalId) {
-    const response = await fetch(`http://localhost:3000/teams/${teamId}/medals`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ medalId }),
-    });
-
-    if (response.ok) {
-        alert("Medalha atribuída!");
-        loadTeams();
-    } else {
-        alert("Erro ao atribuir medalha.");
+        const medals = await response.json();
+        renderMedals(medals);
+    } catch (error) {
+        console.error(error.message);
+        alert("Erro ao carregar medalhas.");
     }
 }
 
+// Função para renderizar medalhas
+function renderMedals(medals) {
+    medalsList.innerHTML = "";
+    medalsEarnedList.innerHTML = "";
+    medalsProgressList.innerHTML = "";
+
+    medals.forEach(medal => {
+        const medalCard = document.createElement("div");
+        medalCard.className = "medal-card";
+        medalCard.innerHTML = `
+            <img src="${medal.icon}" alt="${medal.name} icon">
+            <div>
+                <h4>${medal.name}</h4>
+                <p>${medal.description}</p>
+                <p><strong>Critério:</strong> ${medal.criteria}</p>
+            </div>
+        `;
+
+        medalsList.appendChild(medalCard);
+    });
+
+    // Exemplo de como renderizar medalhas conquistadas e em progresso
+    // Substitua pelos dados reais das equipes
+    const earnedMedals = medals.filter(medal => medal.id === 1); // Exemplo
+    const progressMedals = medals.filter(medal => medal.id === 2); // Exemplo
+
+    earnedMedals.forEach(medal => {
+        const medalCard = document.createElement("div");
+        medalCard.className = "medal-card";
+        medalCard.innerHTML = `
+            <img src="${medal.icon}" alt="${medal.name} icon">
+            <div>
+                <h4>${medal.name}</h4>
+                <p>${medal.description}</p>
+            </div>
+        `;
+
+        medalsEarnedList.appendChild(medalCard);
+    });
+
+    progressMedals.forEach(medal => {
+        const medalCard = document.createElement("div");
+        medalCard.className = "medal-card";
+        medalCard.innerHTML = `
+            <img src="${medal.icon}" alt="${medal.name} icon">
+            <div>
+                <h4>${medal.name}</h4>
+                <p>${medal.description}</p>
+                <p><strong>Progresso:</strong> 80%</p> <!-- Exemplo de progresso -->
+            </div>
+        `;
+
+        medalsProgressList.appendChild(medalCard);
+    });
+}
+
+// Carregar medalhas ao iniciar
+document.addEventListener("DOMContentLoaded", loadMedals);

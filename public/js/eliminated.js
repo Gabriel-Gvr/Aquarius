@@ -23,7 +23,7 @@ function renderEliminatedTeams(eliminatedTeams) {
         teamCard.className = "team-card eliminated";
         teamCard.innerHTML = `
             <h3>${team.name}</h3>
-            <img src="${team.emblem || 'assets/images/default.png'}" alt="${team.name} emblem">
+            <img src="${team.emblemPath}" alt="${team.name} emblem">
             <button onclick="restoreTeam(${team.id})">Restaurar</button>
         `;
         eliminatedContainer.appendChild(teamCard);

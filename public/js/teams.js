@@ -47,28 +47,59 @@ function renderTeams(teamsData) {
         teamCard.className = "team-card";
         teamCard.innerHTML = `
             <h3>${team.name}</h3>
-            <img src="${team.emblem || 'assets/images/default.png'}" alt="${team.name} emblem">
+            <img src="${team.emblemPath}" alt="${team.name} emblem">
             <p>Pontuação: ${team.points}</p>
             <button onclick="deleteTeam(${team.id})">Remover</button>
-            <button onclick="openEditModal(${team.id}, '${team.name}', '${team.emblem}')">Editar</button>
+            <button onclick="openEditModal(${team.id}, '${team.name}', '${team.emblemPath}')">Editar</button>
             <button onclick="eliminateTeam(${team.id})">Eliminar</button>
         `;
         teamsContainer.appendChild(teamCard);
     });
 }
 
+
+
+// Função para abrir o modal de edição com dados da equipe
+function openEditModal(teamId, name, emblemPath) {
+    currentTeamId = teamId; // Define o ID da equipe sendo editada
+    document.getElementById("edit-team-name").value = name || "";
+    document.getElementById("edit-team-emblem").value = emblemPath || "";
+    document.getElementById("edit-modal").style.display = "flex"; // Exibe o modal
+}
+
+// Função para editar uma equipe existente
+document.getElementById("edit-team-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = document.getElementById("edit-team-name").value;
+    const emblemPath = document.getElementById("edit-team-emblem").value;
+
+    try {
+        const response = await fetch(`http://localhost:3000/teams/${currentTeamId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, emblemPath }),
+        });
+
+        if (!response.ok) throw new Error("Erro ao atualizar equipe");
+
+        alert("Equipe atualizada com sucesso!");
+        document.getElementById("edit-modal").style.display = "none";
+        loadTeams();
+    } catch (error) {
+        console.error(error.message);
+        alert("Erro ao atualizar equipe.");
+    }
+});
+
+
+
+
 // Garante que o modal esteja oculto ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("edit-modal").style.display = "none";
 });
 
-// Função para abrir o modal de edição com dados da equipe
-function openEditModal(teamId, name, emblem) {
-    currentTeamId = teamId; // Define o ID da equipe sendo editada
-    document.getElementById("edit-team-name").value = name || "";
-    document.getElementById("edit-team-emblem").value = emblem || "";
-    document.getElementById("edit-modal").style.display = "flex"; // Exibe o modal
-}
+
 
 // Fecha o modal de edição
 document.querySelector(".modal .close").addEventListener("click", () => {
@@ -87,13 +118,13 @@ window.addEventListener("click", (event) => {
 document.getElementById("add-team-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const name = document.getElementById("team-name").value;
-    const emblem = document.getElementById("team-emblem").value;
+    const emblemPath = document.getElementById("team-emblem").value;
 
     try {
         const response = await fetch("http://localhost:3000/teams", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, emblem, points: 0 }),
+            body: JSON.stringify({ name, emblemPath, points: 0 }),
         });
 
         if (!response.ok) throw new Error("Erro ao adicionar equipe");
@@ -106,29 +137,7 @@ document.getElementById("add-team-form").addEventListener("submit", async (e) =>
     }
 });
 
-// Função para editar uma equipe existente
-document.getElementById("edit-team-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const name = document.getElementById("edit-team-name").value;
-    const emblem = document.getElementById("edit-team-emblem").value;
 
-    try {
-        const response = await fetch(`http://localhost:3000/teams/${currentTeamId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, emblem }),
-        });
-
-        if (!response.ok) throw new Error("Erro ao atualizar equipe");
-
-        alert("Equipe atualizada com sucesso!");
-        document.getElementById("edit-modal").style.display = "none";
-        loadTeams();
-    } catch (error) {
-        console.error(error.message);
-        alert("Erro ao atualizar equipe.");
-    }
-});
 
 // Função para deletar uma equipe
 async function deleteTeam(teamId) {
@@ -203,6 +212,34 @@ async function changePoints(teamId, delta) {
         alert(`Erro: ${error.message}`);
     }
 }
+
+function updateStatistics() {
+    // Faz uma requisição para obter as equipes do servidor (rota "/teams")
+    fetch("/teams")
+        .then(response => response.json())
+        .then(teams => {
+            const totalTeams = teams.length;
+            const totalPoints = teams.reduce((sum, team) => sum + (team.points || 0), 0);
+            const averagePoints = totalTeams > 0 ? (totalPoints / totalTeams).toFixed(2) : 0;
+
+            // Determina a equipe líder (ou nenhuma)
+            const topTeam = teams.reduce((leader, team) => (team.points > (leader.points || 0) ? team : leader), { name: "Nenhuma", points: 0 });
+
+            // Atualiza o painel de estatísticas com os novos dados
+            document.getElementById("total-teams").innerText = totalTeams;
+            document.getElementById("average-score").innerText = averagePoints;
+            document.getElementById("leading-team").innerText = topTeam.name;
+        })
+        .catch(error => console.error("Erro ao carregar estatísticas:", error));
+}
+
+// Chama a função ao carregar a página
+updateStatistics();
+
+
+// Atualizar o resumo de estatísticas ao carregar a página
+document.addEventListener("DOMContentLoaded", updateStatistics);
+
 
 // Função para exibir notificações
 function showNotification(type, message) {

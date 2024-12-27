@@ -1,0 +1,17 @@
+[
+    {
+      "id": 1,
+      "name": "Primeira Vitória",
+      "description": "Concedida à primeira equipe que vencer uma competição.",
+      "icon": "assets/images/medals/primeiravitoria.png",
+      "criteria": "Vencer uma competição."
+    },
+    {
+      "id": 2,
+      "name": "100 Pontos",
+      "description": "Concedida às equipes que alcançarem 100 pontos.",
+      "icon": "assets/images/medals/100pontos.png",
+      "criteria": "Alcançar 100 pontos."
+    }
+  ]
+  
