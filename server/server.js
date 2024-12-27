@@ -53,6 +53,29 @@ function saveData(filePath, data) {
     }
 }
 
+const medalsFilePath = path.join(dataFolderPath, "medals.json");
+
+// Funções específicas para medalhas
+function loadMedals() {
+    return loadData(medalsFilePath);
+}
+
+function saveMedals(medals) {
+    saveData(medalsFilePath, medals);
+}
+
+// Rota para obter medalhas
+app.get("/medals", (req, res) => {
+    try {
+        const medals = loadMedals();
+        res.json(medals);
+    } catch (error) {
+        console.error("Erro ao carregar medalhas:", error);
+        res.status(500).json({ error: "Erro ao carregar medalhas" });
+    }
+});
+
+
 // Funções específicas para equipes
 function loadTeams() {
     return loadData(teamsFilePath);
@@ -91,18 +114,7 @@ app.get("/teams", (req, res) => {
     }
 });
 
-app.post("/teams", (req, res) => {
-    try {
-        const teams = loadTeams();
-        const newTeam = { id: Date.now(), points: 0, ...req.body };
-        teams.push(newTeam);
-        saveTeams(teams);
-        res.status(201).json(newTeam);
-    } catch (error) {
-        console.error("Erro ao adicionar equipe:", error);
-        res.status(500).json({ error: "Erro ao adicionar equipe" });
-    }
-});
+
 
 app.delete("/teams/:id", (req, res) => {
     try {
@@ -116,9 +128,22 @@ app.delete("/teams/:id", (req, res) => {
     }
 });
 
+app.post("/teams", (req, res) => {
+    try {
+        const teams = loadTeams();
+        const newTeam = { id: Date.now(), points: 0, ...req.body };
+        teams.push(newTeam);
+        saveTeams(teams);
+        res.status(201).json(newTeam);
+    } catch (error) {
+        console.error("Erro ao adicionar equipe:", error);
+        res.status(500).json({ error: "Erro ao adicionar equipe" });
+    }
+});
+
 app.put("/teams/:id", (req, res) => {
     const teamId = parseInt(req.params.id);
-    const { name, emblem } = req.body;
+    const { name, emblemPath } = req.body;
 
     if (!name) {
         return res.status(400).json({ error: "Necessário novo nome" });
@@ -132,8 +157,8 @@ app.put("/teams/:id", (req, res) => {
     }
 
     teams[teamIndex].name = name;
-    if (emblem) {
-        teams[teamIndex].emblem = emblem;
+    if (emblemPath) {
+        teams[teamIndex].emblemPath = emblemPath;
     }
 
     try {
@@ -144,6 +169,7 @@ app.put("/teams/:id", (req, res) => {
         res.status(500).json({ error: "Erro ao salvar mudanças" });
     }
 });
+
 
 app.patch("/teams/:id", (req, res) => {
     const teamId = parseInt(req.params.id);
@@ -200,7 +226,6 @@ app.patch("/teams/:id/eliminate", (req, res) => {
     }
 });
 
-// Nova rota para restaurar equipes eliminadas
 app.patch("/teams/:id/restore", (req, res) => {
     const teamId = parseInt(req.params.id);
 
@@ -229,7 +254,6 @@ app.patch("/teams/:id/restore", (req, res) => {
     }
 });
 
-// Rota para obter equipes eliminadas
 app.get("/eliminated-teams", (req, res) => {
     try {
         const eliminatedTeams = loadEliminatedTeams();
@@ -239,6 +263,10 @@ app.get("/eliminated-teams", (req, res) => {
         res.status(500).json({ error: "Erro ao carregar equipes eliminadas" });
     }
 });
+
+
+
+
 
 
 // Rotas para tarefas
