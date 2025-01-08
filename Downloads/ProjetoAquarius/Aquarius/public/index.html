@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Aquarius - Tubaron</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-title">Aquarius</h1>
+            <nav aria-label="Menu principal" class="site-nav">
+                <ul>
+                    <li><a href="#teams">Equipes</a></li>
+                    <li><a href="#leaderboard">Placar</a></li>
+                    <li><a href="#tasks">Missões</a></li>
+                    <li><a href="#medals">Medalhas</a></li>
+                    <li><a href="#eliminated-teams">Eliminados</a></li>
+                    <li><a href="#prizes">Premiações</a></li>
+                    <li><a href="#avatars">Avatares</a></li>
+                    <li><a href="#admin">Administração</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Seção de Equipes -->
+        <section id="teams">
+            <h2>Equipes</h2>
+            <form id="add-team-form">
+                <input type="text" id="team-name" placeholder="Nome da Equipe" required>
+                <input type="text" id="team-emblem" placeholder="URL do Emblema" required>
+                <button type="submit">Adicionar Equipe</button>
+            </form>
+            <div class="content-container">
+                <div id="teams-container"></div>
+                <div class="main-container">
+                    <div class="teams-container"></div>
+                    <div class="statistics-panel">
+                        <!-- Painel de estatísticas -->
+                        <h3>Resumo das Estatísticas</h3>
+                        <p><strong>Total de equipes:</strong> <span id="total-teams">0</span></p>
+                        <p><strong>Pontuação média:</strong> <span id="average-score">0</span></p>
+                        <p><strong>Equipe líder:</strong> <span id="leading-team">Nenhuma</span></p>
+                    </div>   
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal de Edição de Equipe -->
+        <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="edit-team-form">
+                    <input type="hidden" id="edit-team-id">
+                    <input type="text" id="edit-team-name" placeholder="Novo Nome" required>
+                    <input type="text" id="edit-team-emblem" placeholder="Novo Emblema" required>
+                    <button type="submit">Salvar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Outras Seções -->
+        <section id="leaderboard">
+            <h2>Placar</h2>
+            <div id="leaderboard-container"></div>
+        </section>
+
+        <section id="tasks">
+            <h2>Missões</h2>
+            <form id="add-task-form">
+                <input type="text" id="task-name" placeholder="Nome da Tarefa" required>
+                <textarea id="task-details" placeholder="Detalhes da Tarefa" required></textarea>
+                <input type="number" id="task-points" placeholder="Pontos" required>
+                <button type="submit">Adicionar Tarefa</button>
+            </form>
+            <div id="tasks-container"></div>
+        </section>
+
+        <!-- Modal de Edição de Tarefas -->
+        <div id="edit-task-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="edit-task-form">
+                    <input type="text" id="edit-task-name" placeholder="Nome da Tarefa" required>
+                    <textarea id="edit-task-details" placeholder="Detalhes da Tarefa" required></textarea>
+                    <input type="number" id="edit-task-points" placeholder="Pontos" required>
+                    <button type="submit">Salvar</button>
+                </form>
+            </div>
+        </div>
+
+        <section id="medals">
+            <h2>Medalhas</h2>
+            <div class="medals-overview">
+                <h3>Visão Geral das Medalhas</h3>
+                <div id="medals-list"></div>
+            </div>
+            <div class="medals-earned">
+                <h3>Medalhas Conquistadas</h3>
+                <div id="medals-earned-list"></div>
+            </div>
+            <div class="medals-progress">
+                <h3>Medalhas em Progresso</h3>
+                <div id="medals-progress-list"></div>
+            </div>
+        </section>
+        
+
+        <section id="eliminated-teams">
+            <h2>Equipes Eliminadas</h2>
+            <div id="eliminated-teams-container"></div>
+        </section>
+
+        <section id="prizes">
+            <h2>Premiações</h2>
+            <div id="prizes-container"></div>
+        </section>
+
+        <section id="avatars">
+            <h2>Avatares e Conquistas</h2>
+            <div id="avatars-container"></div>
+        </section>
+
+        <section id="score-history">
+            <h2>Histórico de Pontuações</h2>
+            <div id="history-container"></div>
+        </section>
+
+        <!-- Notificações -->
+        <div id="notifications" class="notifications"></div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 Projeto Aquarius - Tubaron. Todos os direitos reservados.</p>
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="#privacy">Privacidade</a></li>
+                    <li><a href="#terms">Termos de Uso</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js" defer></script>
+    <script src="js/teams.js" defer></script>
+    <script src="js/medals.js" defer></script>
+    <script src="js/eliminated.js" defer></script>
+    <script src="js/prizes.js" defer></script>
+    <script src="js/avatars.js" defer></script>
+    <script src="js/tasks.js" defer></script>
+    <script src="js/notifications.js" defer></script>
+    <script src="js/score-history.js" defer></script>
+    <script src="js/admin.js" defer></script>
+</body>
+</html>

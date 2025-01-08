@@ -1,0 +1,31 @@
+# Ignorar diretórios
+/.VirtualBox/
+/.android/
+/.cache/
+/gradle/
+/.vscode/
+AppData/
+Contacts/
+Desktop/
+Documents/
+Favorites/
+Music/
+Pictures/
+Videos/
+
+# Ignorar arquivos específicos
+NTUSER.DAT
+ntuser.dat.LOG1
+ntuser.dat.LOG2
+ntuser.ini
+node_modules
+.env.local
+.env.production
+
+# Ignorar pastas de projetos externas
+AndroidStudioProjects/
+IdeaProjects/
+PycharmProjects/
+StudioProjects/
+
+
